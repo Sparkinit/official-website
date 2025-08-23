@@ -9,10 +9,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setMessage(null);
@@ -37,19 +38,47 @@ const Login = () => {
     setIsLoading(false);
   };
 
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    setMessage(null);
+    setIsLoading(true);
+
+    const { error } = await authClient.signIn.email(
+      {
+        email,
+        password,
+        callbackURL: "/",
+      },
+      {
+        onError: (ctx) => setError(ctx.error.message),
+      }
+    );
+
+    if (!error) {
+      setMessage("Signed in successfully.");
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleSubmit = isSignUp ? handleSignUp : handleSignIn;
+
   return (
     <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit}>
       <div className="flex flex-col">
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Name"
-          className="border-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
-          required
-        />
+        {isSignUp && (
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Name"
+            className="border-x-3 border-t-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
+            required
+          />
+        )}
         <input
           type="email"
           id="email"
@@ -57,7 +86,7 @@ const Login = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
-          className="border-x-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
+          className="border-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
           required
         />
         <input
@@ -68,7 +97,7 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           minLength={8}
-          className="border-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
+          className="border-x-3 border-b-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
           required
         />
       </div>
@@ -78,7 +107,13 @@ const Login = () => {
           disabled={isLoading}
           className="border-3 px-4 py-2 font-bold font-mono outline-none flex-1 hover:cursor-pointer"
         >
-          {isLoading ? "Signing up..." : "Sign up"}
+          {isLoading
+            ? isSignUp
+              ? "Signing in..."
+              : "Signing up..."
+            : isSignUp
+              ? "Sign in"
+              : "Sign up"}
         </button>
         <button
           type="button"
@@ -97,6 +132,13 @@ const Login = () => {
           <Google className="w-6 h-6" />
         </button>
       </div>
+      <button
+        type="button"
+        onClick={() => setIsSignUp(!isSignUp)}
+        className="px-4 font-bold font-mono text-left outline-none flex-1 hover:cursor-pointer"
+      >
+        {isSignUp ? "Sign up" : "Sign in"}
+      </button>
       {error ? <p style={{ color: "red" }}>{error}</p> : null}
       {message ? <p style={{ color: "green" }}>{message}</p> : null}
     </form>
