@@ -109,11 +109,11 @@ const Login = () => {
         >
           {isLoading
             ? isSignUp
-              ? "Signing in..."
-              : "Signing up..."
+              ? "Signing up..."
+              : "Signing in..."
             : isSignUp
-              ? "Sign in"
-              : "Sign up"}
+              ? "Sign up"
+              : "Sign in"}
         </button>
         <button
           type="button"
@@ -137,7 +137,9 @@ const Login = () => {
         onClick={() => setIsSignUp(!isSignUp)}
         className="px-4 font-bold font-mono text-left outline-none flex-1 hover:cursor-pointer"
       >
-        {isSignUp ? "Sign up" : "Sign in"}
+        {isSignUp
+          ? "Already have an account? Log in"
+          : "Don't have an account? Sign up"}
       </button>
       {error ? <p style={{ color: "red" }}>{error}</p> : null}
       {message ? <p style={{ color: "green" }}>{message}</p> : null}
