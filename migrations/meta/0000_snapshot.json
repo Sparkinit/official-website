@@ -1,5 +1,5 @@
 {
-  "id": "39c8e651-3b1a-4758-8d82-d21bf998ce31",
+  "id": "d1dd45b7-e21a-4f22-ba02-162610fbb3c4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -242,19 +242,22 @@
           "name": "activation_date",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "(CURRENT_TIMESTAMP + interval '3 days')"
         },
         "ai_approved": {
           "name": "ai_approved",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": false
         },
         "form_submitted": {
           "name": "form_submitted",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": false
         }
       },
       "indexes": {},

@@ -34,9 +34,9 @@ CREATE TABLE "user" (
 	"image" text,
 	"created_at" timestamp NOT NULL,
 	"updated_at" timestamp NOT NULL,
-	"activation_date" timestamp NOT NULL,
-	"ai_approved" boolean NOT NULL,
-	"form_submitted" boolean NOT NULL,
+	"activation_date" timestamp DEFAULT (CURRENT_TIMESTAMP + interval '3 days') NOT NULL,
+	"ai_approved" boolean DEFAULT false NOT NULL,
+	"form_submitted" boolean DEFAULT false NOT NULL,
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
