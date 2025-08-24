@@ -1,7 +1,9 @@
 import { Elysia, t } from "elysia";
+import { authRouter } from "@/routes/auth";
 
 const app = new Elysia({ prefix: "/api" })
-  .get("/", () => "hi")
+  .use(authRouter)
+  .get("/", () => "sparkinit")
   .post("/", ({ body }) => body, {
     body: t.Object({
       name: t.String(),
