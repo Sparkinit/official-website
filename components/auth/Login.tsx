@@ -62,6 +62,50 @@ const Login = () => {
     setIsLoading(false);
   };
 
+  const handleGithubLogin = async () => {
+    setError(null);
+    setMessage(null);
+    setIsLoading(true);
+
+    const { error } = await authClient.signIn.social(
+      {
+        provider: "github",
+        callbackURL: "/",
+      },
+      {
+        onError: (ctx) => setError(ctx.error.message),
+      }
+    );
+
+    if (!error) {
+      setMessage("Successfully signed in with GitHub");
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleGoogleLogin = async () => {
+    setError(null);
+    setMessage(null);
+    setIsLoading(true);
+
+    const { error } = await authClient.signIn.social(
+      {
+        provider: "google",
+        callbackURL: "/",
+      },
+      {
+        onError: (ctx) => setError(ctx.error.message),
+      }
+    );
+
+    if (!error) {
+      setMessage("Successfully signed in with Google");
+    }
+
+    setIsLoading(false);
+  };
+
   const handleSubmit = isSignUp ? handleSignUp : handleSignIn;
 
   return (
@@ -119,6 +163,7 @@ const Login = () => {
           type="button"
           disabled={isLoading}
           aria-label="Sign in with GitHub"
+          onClick={handleGithubLogin}
           className="border-3 w-12 h-12 flex items-center justify-center outline-none bg-background light:bg-foreground hover:cursor-pointer"
         >
           <Github className="w-6 h-6" />
@@ -127,6 +172,7 @@ const Login = () => {
           type="button"
           disabled={isLoading}
           aria-label="Sign in with Google"
+          onClick={handleGoogleLogin}
           className="border-3 w-12 h-12 flex items-center justify-center outline-none bg-background light:bg-foreground hover:cursor-pointer"
         >
           <Google className="w-6 h-6" />
