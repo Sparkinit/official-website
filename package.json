@@ -7,8 +7,10 @@
     "build": "bunx --bun astro build",
     "preview": "bunx --bun astro preview",
     "astro": "bunx --bun astro",
-    "db:generate": "bunx @better-auth/cli generate",
-    "db:migrate": "bunx @better-auth/cli migrate",
+    "auth:generate": "bunx @better-auth/cli generate",
+    "auth:migrate": "bunx @better-auth/cli migrate",
+    "db:generate": "bun drizzle-kit generate",
+    "db:migrate": "bun drizzle-kit migrate",
     "db:push": "bun drizzle-kit push"
   },
   "dependencies": {

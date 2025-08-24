@@ -1,4 +1,3 @@
-import React from "react";
 import { useStore } from "@nanostores/react";
 import { darkMode } from "@/lib/store";
 import sparkinitLight from "@/assets/sparkinit-light.svg";

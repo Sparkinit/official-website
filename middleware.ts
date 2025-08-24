@@ -20,7 +20,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   });
 
   if (isAuthed?.user) {
-    context.locals.user = isAuthed.user;
+    context.locals.user = isAuthed.user as import("better-auth").User & {
+      activationDate: Date;
+      aiApproved: boolean;
+      formSubmitted: boolean;
+    };
     context.locals.session = isAuthed.session;
     if (pathname === "/auth" || pathname.startsWith("/auth/")) {
       return new Response(null, {

@@ -1,16 +1,37 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Brand from "@/components/ui/Brand";
+import Countdown from "@/components/Countdown";
+
+const user = Astro.locals.user;
+const session = Astro.locals.session;
+
+const now = new Date();
+const activationDate = user?.activationDate;
+
+const isActivationDateReached = activationDate && now >= activationDate;
+const isAiApproved = user?.aiApproved === true;
+const isFormSubmitted = user?.formSubmitted === true;
 ---
 
 <Layout>
 	<div class="max-w-screen-sm mx-auto px-md md:px-lg w-full h-screen">
       <div class="flex flex-col gap-12 items-center justify-center h-full">
         <Brand client:load />
-        <!-- <div class="h-12 border-3 w-full dark:border-white border-[#F73A01]"></div> -->
-        <div class="flex flex-col gap-4 w-full">
-          todo: chatbot
-        </div>
+        {
+          user?.email !== null
+            && (
+              !isActivationDateReached ? (
+                <Countdown now={now} activationDate={activationDate} client:load />
+              ): !isAiApproved ? (
+                <div>todo: chatbot</div>
+              ): !isFormSubmitted ? (
+                <div>todo: form</div>
+              ): (
+                <div>todo: success</div>
+              )
+          )
+        }
       </div>
   </div>
 </Layout>
