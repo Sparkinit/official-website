@@ -636,7 +636,7 @@
 
     "electron-to-chromium": ["electron-to-chromium@1.5.208", "", {}, "sha512-ozZyibehoe7tOhNaf16lKmljVf+3npZcJIEbJRVftVsmAg5TeA1mGS9dVCZzOwr2xT7xK15V0p7+GZqSPgkuPg=="],
 
-    "elysia": ["elysia@1.3.18", "", { "dependencies": { "cookie": "^1.0.2", "exact-mirror": "0.1.6", "fast-decode-uri-component": "^1.0.1" }, "optionalDependencies": { "@sinclair/typebox": "^0.34.33", "openapi-types": "^12.1.3" }, "peerDependencies": { "file-type": ">= 20.0.0", "typescript": ">= 5.0.0" } }, "sha512-t/V5+3jf/xcWDkyXmlL9oBUP8PvaCb7GCHso6WuR73MGqxgU+4c7lk3D8h84F+uVA2ZIwq1btpTot26eqpE7pw=="],
+    "elysia": ["elysia@1.3.20", "", { "dependencies": { "cookie": "^1.0.2", "exact-mirror": "0.1.6", "fast-decode-uri-component": "^1.0.1" }, "optionalDependencies": { "@sinclair/typebox": "^0.34.33", "openapi-types": "^12.1.3" }, "peerDependencies": { "file-type": ">= 20.0.0", "typescript": ">= 5.0.0" } }, "sha512-7j2w/1NALKu1KOPDFEIKaSLZ2gcL92Ij/POssDOglZO04rFFQ3unvBjUVYTrMMKbDn+/tLd5OXuSUztK+pcEtQ=="],
 
     "emoji-regex": ["emoji-regex@10.4.0", "", {}, "sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw=="],
 

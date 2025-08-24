@@ -67,19 +67,11 @@ const Login = () => {
     setMessage(null);
     setIsLoading(true);
 
-    const { error } = await authClient.signIn.social(
-      {
-        provider: "github",
-        callbackURL: "/",
-      },
-      {
-        onError: (ctx) => setError(ctx.error.message),
-      }
-    );
-
-    if (!error) {
-      setMessage("Successfully signed in with GitHub");
-    }
+    await authClient.signIn.social({
+      provider: "github",
+      callbackURL: "/",
+      // errorCallbackURL: "/error",
+    });
 
     setIsLoading(false);
   };
@@ -89,19 +81,11 @@ const Login = () => {
     setMessage(null);
     setIsLoading(true);
 
-    const { error } = await authClient.signIn.social(
-      {
-        provider: "google",
-        callbackURL: "/",
-      },
-      {
-        onError: (ctx) => setError(ctx.error.message),
-      }
-    );
-
-    if (!error) {
-      setMessage("Successfully signed in with Google");
-    }
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+      // errorCallbackURL: "/error",
+    });
 
     setIsLoading(false);
   };
