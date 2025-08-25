@@ -7,6 +7,7 @@
     "build": "bunx --bun astro build",
     "preview": "bunx --bun astro preview",
     "astro": "bunx --bun astro",
+    "deploy": "fly deploy",
     "auth:generate": "bunx @better-auth/cli generate",
     "auth:migrate": "bunx @better-auth/cli migrate",
     "db:generate": "bun drizzle-kit generate",
@@ -14,6 +15,7 @@
     "db:push": "bun drizzle-kit push"
   },
   "dependencies": {
+    "@astrojs/node": "^9.4.3",
     "@astrojs/react": "^4.3.0",
     "@better-auth/cli": "^1.3.7",
     "@nanostores/react": "^1.0.0",
@@ -35,6 +37,7 @@
     "tailwindcss": "^4.1.12"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.10",
     "@types/bun": "^1.2.20",
     "drizzle-kit": "^0.31.4"
   }

@@ -1,7 +1,10 @@
-import * as React from "react";
 import { Html, Button } from "@react-email/components";
 
-export function Email(props) {
+interface EmailProps {
+  url: string;
+}
+
+export function Email(props: EmailProps) {
   const { url } = props;
 
   return (
