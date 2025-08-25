@@ -2,7 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import Brand from "@/components/ui/Brand";
 import Countdown from "@/components/Countdown";
-import { user, session } from "@/stores"
+import { user, session } from "@/stores";
 
 user.set(Astro.locals.user);
 session.set(Astro.locals.session);
@@ -18,23 +18,21 @@ const isFormSubmitted = $user?.formSubmitted === true;
 ---
 
 <Layout>
-	<div class="max-w-screen-sm mx-auto px-md md:px-lg w-full h-screen">
-      <div class="flex flex-col gap-12 items-center justify-center h-full">
-        <Brand client:load />
-        {
-          $user?.email !== null
-            && (
-              !isActivationDateReached ? (
-                <Countdown now={now} activationDate={activationDate} client:load />
-              ): !isAiApproved ? (
-                <div>todo: chatbot</div>
-              ): !isFormSubmitted ? (
-                <div>todo: form</div>
-              ): (
-                <div>todo: success</div>
-              )
-          )
-        }
-      </div>
+  <div class="px-md md:px-lg mx-auto h-screen w-full max-w-screen-sm">
+    <div class="flex h-full flex-col items-center justify-center gap-12">
+      <Brand client:load />
+      {
+        $user?.email !== null &&
+          (!isActivationDateReached ? (
+            <Countdown now={now} activationDate={activationDate} client:load />
+          ) : !isAiApproved ? (
+            <div>todo: chatbot</div>
+          ) : !isFormSubmitted ? (
+            <div>todo: form</div>
+          ) : (
+            <div>todo: success</div>
+          ))
+      }
+    </div>
   </div>
 </Layout>

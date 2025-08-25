@@ -12,7 +12,8 @@
     "auth:migrate": "bunx @better-auth/cli migrate",
     "db:generate": "bun drizzle-kit generate",
     "db:migrate": "bun drizzle-kit migrate",
-    "db:push": "bun drizzle-kit push"
+    "db:push": "bun drizzle-kit push",
+    "format": "bunx prettier '**/*.{js,ts,tsx,astro,json,css}' --write"
   },
   "dependencies": {
     "@astrojs/node": "^9.4.3",
@@ -39,6 +40,9 @@
   "devDependencies": {
     "@flydotio/dockerfile": "^0.7.10",
     "@types/bun": "^1.2.20",
-    "drizzle-kit": "^0.31.4"
+    "drizzle-kit": "^0.31.4",
+    "prettier": "3.6.2",
+    "prettier-plugin-astro": "0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.14"
   }
 }

@@ -41,7 +41,7 @@ const Login = () => {
           },
           {
             onError: (ctx) => setError(ctx.error.message),
-          }
+          },
         );
         if (!error) {
           setMessage("Check your email");
@@ -55,7 +55,7 @@ const Login = () => {
           },
           {
             onError: (ctx) => setError(ctx.error.message),
-          }
+          },
         );
         if (!error) {
           setMessage("Signed in successfully");
@@ -89,7 +89,7 @@ const Login = () => {
 
   return (
     <form
-      className="flex flex-col gap-4 w-full"
+      className="flex w-full flex-col gap-4 px-4"
       onSubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -104,7 +104,7 @@ const Login = () => {
                 type="text"
                 id="name"
                 placeholder="Name"
-                className="border-x-3 border-t-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
+                className="placeholder-foreground/60 min-h-12 w-full border-x-2 border-t-2 px-4 py-2 font-mono text-sm font-bold transition-all duration-300 ease-in-out outline-none sm:text-base md:border-x-3 md:border-t-3"
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
@@ -120,7 +120,7 @@ const Login = () => {
               type="email"
               id="email"
               placeholder="Email"
-              className="border-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
+              className="placeholder-foreground/60 min-h-12 w-full border-2 px-4 py-2 font-mono text-sm font-bold transition-all duration-300 ease-in-out outline-none sm:text-base md:border-3"
               value={field.state.value}
               onBlur={field.handleBlur}
               onChange={(e) => field.handleChange(e.target.value)}
@@ -136,7 +136,7 @@ const Login = () => {
               id="password"
               placeholder="Password"
               minLength={8}
-              className="border-x-3 border-b-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
+              className="placeholder-foreground/60 min-h-12 w-full border-x-2 border-b-2 px-4 py-2 font-mono text-sm font-bold transition-all duration-300 ease-in-out outline-none sm:text-base md:border-x-3 md:border-b-3"
               value={field.state.value}
               onBlur={field.handleBlur}
               onChange={(e) => field.handleChange(e.target.value)}
@@ -146,32 +146,34 @@ const Login = () => {
         </form.Field>
       </div>
 
-      <div className="flex flex-row gap-4 w-full items-center">
+      <div className="flex w-full flex-col items-center gap-4 md:flex-row">
         <button
           type="submit"
           disabled={isLoading}
-          className="border-3 px-4 py-2 font-bold font-mono outline-none flex-1 hover:cursor-pointer"
+          className="min-h-12 w-full flex-1 overflow-hidden border-2 px-4 py-2 font-mono text-sm font-bold text-ellipsis whitespace-nowrap transition-all duration-300 ease-in-out outline-none hover:cursor-pointer sm:text-base md:border-3"
         >
           {getButtonLabel()}
         </button>
-        <button
-          type="button"
-          disabled={isLoading}
-          aria-label="Sign in with GitHub"
-          onClick={() => handleSocialLogin("github")}
-          className="border-3 w-12 h-12 flex items-center justify-center outline-none bg-background light:bg-foreground hover:cursor-pointer"
-        >
-          <Github className="w-6 h-6" />
-        </button>
-        <button
-          type="button"
-          disabled={isLoading}
-          aria-label="Sign in with Google"
-          onClick={() => handleSocialLogin("google")}
-          className="border-3 w-12 h-12 flex items-center justify-center outline-none bg-background light:bg-foreground hover:cursor-pointer"
-        >
-          <Google className="w-6 h-6" />
-        </button>
+        <div className="flex w-full flex-row items-center gap-4 md:w-auto">
+          <button
+            type="button"
+            disabled={isLoading}
+            aria-label="Sign in with GitHub"
+            onClick={() => handleSocialLogin("github")}
+            className="bg-background light:bg-foreground flex h-12 w-full items-center justify-center border-2 outline-none hover:cursor-pointer md:w-12 md:border-3"
+          >
+            <Github className="size-5" />
+          </button>
+          <button
+            type="button"
+            disabled={isLoading}
+            aria-label="Sign in with Google"
+            onClick={() => handleSocialLogin("google")}
+            className="bg-background light:bg-foreground flex h-12 w-full items-center justify-center border-2 outline-none hover:cursor-pointer md:w-12 md:border-3"
+          >
+            <Google className="size-5" />
+          </button>
+        </div>
       </div>
       <button
         type="button"
@@ -180,7 +182,7 @@ const Login = () => {
           setError(null);
           setMessage(null);
         }}
-        className="px-4 font-bold font-mono text-left outline-none flex-1 hover:cursor-pointer"
+        className="flex-1 text-left font-mono text-sm font-bold transition-all duration-300 ease-in-out outline-none hover:cursor-pointer sm:text-base"
       >
         {isSignUp
           ? "Already have an account? Log in"

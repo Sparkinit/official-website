@@ -12,7 +12,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   ];
 
   const isPublic = publicPaths.some(
-    (p) => pathname === p || pathname.startsWith(p + "/")
+    (p) => pathname === p || pathname.startsWith(p + "/"),
   );
 
   const isAuthed = await auth.api.getSession({

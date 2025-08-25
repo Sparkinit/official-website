@@ -15,7 +15,7 @@ const Countdown = ({ now, activationDate }: CountdownProps) => {
     }
     const initialSeconds = Math.max(
       0,
-      Math.floor((activationDate.getTime() - now.getTime()) / 1000)
+      Math.floor((activationDate.getTime() - now.getTime()) / 1000),
     );
     setSecondsLeft(initialSeconds);
   }, [activationDate, now]);

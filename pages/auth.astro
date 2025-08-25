@@ -1,14 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Brand from '../components/ui/Brand';
-import Login from '@/components/auth/Login';
+import Layout from "../layouts/Layout.astro";
+import Brand from "../components/ui/Brand";
+import Login from "@/components/auth/Login";
 ---
 
 <Layout>
-	<div class="max-w-screen-sm mx-auto px-md md:px-lg w-full h-screen">
-      <div class="flex flex-col gap-12 items-center justify-center h-full">
-        <Brand client:load />
-        <Login client:load />
-      </div>
+  <div class="px-md md:px-lg mx-auto h-screen w-full max-w-screen-sm">
+    <div class="flex h-full flex-col items-center justify-center gap-12">
+      <Brand client:load />
+      <Login client:load />
+    </div>
   </div>
 </Layout>
