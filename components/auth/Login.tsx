@@ -1,74 +1,78 @@
-import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 import Google from "@/components/icon/Google";
 import Github from "@/components/icon/Github";
+import { useForm } from "@tanstack/react-form";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    setMessage(null);
-    setIsLoading(true);
-
-    const { error } = await authClient.signUp.email(
-      {
-        email,
-        password,
-        name,
-        callbackURL: "/",
-      },
-      {
-        onError: (ctx) => setError(ctx.error.message),
-      }
-    );
-
-    if (!error) {
-      setMessage("Check your email — we’ve sent a verification link.");
+  useEffect(() => {
+    if (error || message) {
+      const timer = setTimeout(() => {
+        setError(null);
+        setMessage(null);
+      }, 3000);
+      return () => clearTimeout(timer);
     }
+  }, [error, message]);
 
-    setIsLoading(false);
-  };
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+    onSubmit: async ({ value }) => {
+      setError(null);
+      setMessage(null);
+      setIsLoading(true);
 
-  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    setMessage(null);
-    setIsLoading(true);
-
-    const { error } = await authClient.signIn.email(
-      {
-        email,
-        password,
-        callbackURL: "/",
-      },
-      {
-        onError: (ctx) => setError(ctx.error.message),
+      if (isSignUp) {
+        const { error } = await authClient.signUp.email(
+          {
+            email: value.email,
+            password: value.password,
+            name: value.name,
+            callbackURL: "/",
+          },
+          {
+            onError: (ctx) => setError(ctx.error.message),
+          }
+        );
+        if (!error) {
+          setMessage("Check your email");
+        }
+      } else {
+        const { error } = await authClient.signIn.email(
+          {
+            email: value.email,
+            password: value.password,
+            callbackURL: "/",
+          },
+          {
+            onError: (ctx) => setError(ctx.error.message),
+          }
+        );
+        if (!error) {
+          setMessage("Signed in successfully");
+        }
       }
-    );
 
-    if (!error) {
-      setMessage("Signed in successfully.");
-    }
+      setIsLoading(false);
+    },
+  });
 
-    setIsLoading(false);
-  };
-
-  const handleGithubLogin = async () => {
+  const handleSocialLogin = async (provider: "google" | "github") => {
     setError(null);
     setMessage(null);
     setIsLoading(true);
 
     await authClient.signIn.social({
-      provider: "github",
+      provider,
       callbackURL: "/",
       // errorCallbackURL: "/error",
     });
@@ -76,78 +80,85 @@ const Login = () => {
     setIsLoading(false);
   };
 
-  const handleGoogleLogin = async () => {
-    setError(null);
-    setMessage(null);
-    setIsLoading(true);
-
-    await authClient.signIn.social({
-      provider: "google",
-      callbackURL: "/",
-      // errorCallbackURL: "/error",
-    });
-
-    setIsLoading(false);
+  const getButtonLabel = () => {
+    if (isLoading) return isSignUp ? "Signing up..." : "Signing in...";
+    if (error) return error;
+    if (message) return message;
+    return isSignUp ? "Sign up" : "Sign in";
   };
-
-  const handleSubmit = isSignUp ? handleSignUp : handleSignIn;
 
   return (
-    <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col gap-4 w-full"
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        form.handleSubmit();
+      }}
+    >
       <div className="flex flex-col">
         {isSignUp && (
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Name"
-            className="border-x-3 border-t-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
-            required
-          />
+          <form.Field name="name">
+            {(field) => (
+              <input
+                type="text"
+                id="name"
+                placeholder="Name"
+                className="border-x-3 border-t-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                required
+              />
+            )}
+          </form.Field>
         )}
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          className="border-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
-          required
-        />
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          minLength={8}
-          className="border-x-3 border-b-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
-          required
-        />
+
+        <form.Field name="email">
+          {(field) => (
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              className="border-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
+              value={field.state.value}
+              onBlur={field.handleBlur}
+              onChange={(e) => field.handleChange(e.target.value)}
+              required
+            />
+          )}
+        </form.Field>
+
+        <form.Field name="password">
+          {(field) => (
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              minLength={8}
+              className="border-x-3 border-b-3 px-4 py-2 w-full font-bold font-mono outline-none placeholder-foreground/60"
+              value={field.state.value}
+              onBlur={field.handleBlur}
+              onChange={(e) => field.handleChange(e.target.value)}
+              required
+            />
+          )}
+        </form.Field>
       </div>
+
       <div className="flex flex-row gap-4 w-full items-center">
         <button
           type="submit"
           disabled={isLoading}
           className="border-3 px-4 py-2 font-bold font-mono outline-none flex-1 hover:cursor-pointer"
         >
-          {isLoading
-            ? isSignUp
-              ? "Signing up..."
-              : "Signing in..."
-            : isSignUp
-              ? "Sign up"
-              : "Sign in"}
+          {getButtonLabel()}
         </button>
         <button
           type="button"
           disabled={isLoading}
           aria-label="Sign in with GitHub"
-          onClick={handleGithubLogin}
+          onClick={() => handleSocialLogin("github")}
           className="border-3 w-12 h-12 flex items-center justify-center outline-none bg-background light:bg-foreground hover:cursor-pointer"
         >
           <Github className="w-6 h-6" />
@@ -156,7 +167,7 @@ const Login = () => {
           type="button"
           disabled={isLoading}
           aria-label="Sign in with Google"
-          onClick={handleGoogleLogin}
+          onClick={() => handleSocialLogin("google")}
           className="border-3 w-12 h-12 flex items-center justify-center outline-none bg-background light:bg-foreground hover:cursor-pointer"
         >
           <Google className="w-6 h-6" />
@@ -164,15 +175,17 @@ const Login = () => {
       </div>
       <button
         type="button"
-        onClick={() => setIsSignUp(!isSignUp)}
+        onClick={() => {
+          setIsSignUp(!isSignUp);
+          setError(null);
+          setMessage(null);
+        }}
         className="px-4 font-bold font-mono text-left outline-none flex-1 hover:cursor-pointer"
       >
         {isSignUp
           ? "Already have an account? Log in"
           : "Don't have an account? Sign up"}
       </button>
-      {error ? <p style={{ color: "red" }}>{error}</p> : null}
-      {message ? <p style={{ color: "green" }}>{message}</p> : null}
     </form>
   );
 };
