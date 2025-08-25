@@ -1,8 +1,8 @@
 import { Elysia, t } from "elysia";
-import { authRouter } from "@/routes/auth";
+import { apiRouter } from "@/routes";
 
 const app = new Elysia({ prefix: "/api" })
-  .use(authRouter)
+  .use(apiRouter)
   .get("/", () => "sparkinit")
   .post("/", ({ body }) => body, {
     body: t.Object({

@@ -4,13 +4,13 @@ import Brand from "@/components/ui/Brand";
 import Countdown from "@/components/Countdown";
 import { user, session } from "@/stores"
 
+user.set(Astro.locals.user);
+session.set(Astro.locals.session);
+
 const $user = user.get();
 
 const now = new Date();
 const activationDate = $user?.activationDate;
-
-user.set(Astro.locals.user);
-session.set(Astro.locals.session);
 
 const isActivationDateReached = activationDate && now >= activationDate;
 const isAiApproved = $user?.aiApproved === true;
