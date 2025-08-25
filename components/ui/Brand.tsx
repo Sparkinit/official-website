@@ -1,5 +1,5 @@
 import { useStore } from "@nanostores/react";
-import { darkMode } from "@/lib/store";
+import { darkMode } from "@/stores";
 import sparkinitLight from "@/assets/sparkinit-light.svg";
 import sparkinitDark from "@/assets/sparkinit-dark.svg";
 

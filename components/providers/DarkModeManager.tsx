@@ -1,5 +1,5 @@
 import { useStore } from "@nanostores/react";
-import { darkMode } from "@/lib/store";
+import { darkMode } from "@/stores";
 import { useEffect } from "react";
 
 const DarkModeManager = () => {
