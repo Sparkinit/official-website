@@ -1,0 +1,12 @@
+[submodule "stores"]
+	path = stores
+	url = git@github.com:Sparkinit/official-website-stores.git
+[submodule "lib"]
+	path = lib
+	url = git@github.com:Sparkinit/official-website-lib.git
+[submodule "db"]
+	path = db
+	url = git@github.com:Sparkinit/official-website-db.git
+[submodule "routes"]
+	path = routes
+	url = git@github.com:Sparkinit/official-website-routes.git
