@@ -8,12 +8,16 @@
     "preview": "bunx --bun astro preview",
     "astro": "bunx --bun astro",
     "deploy": "fly deploy",
+    "format": "bunx prettier '**/*.{js,ts,tsx,astro,json,css}' --write",
     "auth:generate": "bunx @better-auth/cli generate",
     "auth:migrate": "bunx @better-auth/cli migrate",
     "db:generate": "bun drizzle-kit generate",
     "db:migrate": "bun drizzle-kit migrate",
     "db:push": "bun drizzle-kit push",
-    "format": "bunx prettier '**/*.{js,ts,tsx,astro,json,css}' --write"
+    "submodule:init": "git submodule update --init --recursive",
+    "submodule:update": "git submodule update --remote --merge",
+    "submodule:pull": "git pull origin main --recurse-submodules",
+    "submodule:push": "git push --recurse-submodules=on-demand"
   },
   "dependencies": {
     "@astrojs/node": "^9.4.3",
