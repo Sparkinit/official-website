@@ -3,6 +3,7 @@ import { authClient } from "@/lib/auth-client";
 import Google from "@/components/icon/Google";
 import Github from "@/components/icon/Github";
 import { useForm } from "@tanstack/react-form";
+import { intensity } from "@/stores";
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -106,7 +107,11 @@ const Login = () => {
                 placeholder="Name"
                 className="placeholder-foreground/60 min-h-12 w-full border-x-2 border-t-2 px-4 py-2 font-mono text-sm font-bold transition-all duration-300 ease-in-out outline-none sm:text-base md:border-x-3 md:border-t-3"
                 value={field.state.value}
-                onBlur={field.handleBlur}
+                onBlur={() => {
+                  field.handleBlur;
+                  intensity.set(4);
+                }}
+                onFocus={() => intensity.set(10)}
                 onChange={(e) => field.handleChange(e.target.value)}
                 required
               />
@@ -122,7 +127,11 @@ const Login = () => {
               placeholder="Email"
               className="placeholder-foreground/60 min-h-12 w-full border-2 px-4 py-2 font-mono text-sm font-bold transition-all duration-300 ease-in-out outline-none sm:text-base md:border-3"
               value={field.state.value}
-              onBlur={field.handleBlur}
+              onBlur={() => {
+                field.handleBlur;
+                intensity.set(4);
+              }}
+              onFocus={() => intensity.set(10)}
               onChange={(e) => field.handleChange(e.target.value)}
               required
             />
@@ -138,7 +147,11 @@ const Login = () => {
               minLength={8}
               className="placeholder-foreground/60 min-h-12 w-full border-x-2 border-b-2 px-4 py-2 font-mono text-sm font-bold transition-all duration-300 ease-in-out outline-none sm:text-base md:border-x-3 md:border-b-3"
               value={field.state.value}
-              onBlur={field.handleBlur}
+              onBlur={() => {
+                field.handleBlur;
+                intensity.set(4);
+              }}
+              onFocus={() => intensity.set(10)}
               onChange={(e) => field.handleChange(e.target.value)}
               required
             />
@@ -160,7 +173,7 @@ const Login = () => {
             disabled={isLoading}
             aria-label="Sign in with GitHub"
             onClick={() => handleSocialLogin("github")}
-            className="bg-background light:bg-foreground flex h-12 w-full items-center justify-center border-2 outline-none hover:cursor-pointer md:w-12 md:border-3"
+            className="light:bg-foreground flex h-12 w-full items-center justify-center border-2 bg-transparent outline-none hover:cursor-pointer md:w-12 md:border-3"
           >
             <Github className="size-5" />
           </button>
@@ -169,7 +182,7 @@ const Login = () => {
             disabled={isLoading}
             aria-label="Sign in with Google"
             onClick={() => handleSocialLogin("google")}
-            className="bg-background light:bg-foreground flex h-12 w-full items-center justify-center border-2 outline-none hover:cursor-pointer md:w-12 md:border-3"
+            className="light:bg-foreground flex h-12 w-full items-center justify-center border-2 bg-transparent outline-none hover:cursor-pointer md:w-12 md:border-3"
           >
             <Google className="size-5" />
           </button>

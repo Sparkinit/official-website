@@ -1,10 +1,25 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Brand from "../components/ui/Brand";
+import Layout from "@/layouts/Layout.astro";
+import Brand from "@/components/ui/Brand";
 import Login from "@/components/auth/Login";
+import PrismaticBurst from "@/components/effects/PrismaticBurst";
 ---
 
 <Layout>
+  <div class="fixed -z-10 h-screen w-full">
+    <PrismaticBurst
+      animationType="rotate3d"
+      speed={0.6}
+      distort={100}
+      offset={{ x: 0, y: 0 }}
+      hoverDampness={0.25}
+      rayCount={24}
+      mixBlendMode="lighten"
+      colors={["#F83A00", "#ffffff"]}
+      client:load
+    />
+  </div>
+
   <div class="px-md md:px-lg mx-auto h-screen w-full max-w-screen-sm">
     <div class="flex h-full flex-col items-center justify-center gap-12">
       <Brand client:load />
