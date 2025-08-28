@@ -112,7 +112,10 @@ const Login = () => {
                   intensity.set(4);
                 }}
                 onFocus={() => intensity.set(10)}
-                onChange={(e) => field.handleChange(e.target.value)}
+                onChange={(e) => {
+                  field.handleChange(e.target.value);
+                  intensity.set(e.target.value === "" ? 10 : 16);
+                }}
                 required
               />
             )}
@@ -132,7 +135,10 @@ const Login = () => {
                 intensity.set(4);
               }}
               onFocus={() => intensity.set(10)}
-              onChange={(e) => field.handleChange(e.target.value)}
+              onChange={(e) => {
+                field.handleChange(e.target.value);
+                intensity.set(e.target.value === "" ? 10 : 16);
+              }}
               required
             />
           )}
@@ -152,7 +158,10 @@ const Login = () => {
                 intensity.set(4);
               }}
               onFocus={() => intensity.set(10)}
-              onChange={(e) => field.handleChange(e.target.value)}
+              onChange={(e) => {
+                field.handleChange(e.target.value);
+                intensity.set(e.target.value === "" ? 10 : 16);
+              }}
               required
             />
           )}
