@@ -4,12 +4,22 @@ import Google from "@/components/icon/Google";
 import Github from "@/components/icon/Github";
 import { useForm } from "@tanstack/react-form";
 import { intensity } from "@/stores";
+import { Turnstile } from "@marsidev/react-turnstile";
+import { darkMode } from "@/stores";
+import { useStore } from "@nanostores/react";
 
-const Login = () => {
+interface LoginProps {
+  turnstileSiteKey: string;
+}
+
+const Login = ({ turnstileSiteKey }: LoginProps) => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
+
+  const $darkMode = useStore(darkMode);
 
   useEffect(() => {
     if (error || message) {
@@ -33,13 +43,24 @@ const Login = () => {
       setIsLoading(true);
 
       if (isSignUp) {
+        if (!turnstileToken) {
+          setError("Please complete captcha");
+          setIsLoading(false);
+          return;
+        }
+
         const { error } = await authClient.signUp.email(
           {
             email: value.email,
             password: value.password,
             name: value.name,
             callbackURL: "/",
-          },
+            fetchOptions: {
+              headers: {
+                "x-captcha-response": turnstileToken,
+              },
+            },
+          } as Parameters<typeof authClient.signUp.email>[0],
           {
             onError: (ctx) => setError(ctx.error.message),
           },
@@ -167,6 +188,25 @@ const Login = () => {
           )}
         </form.Field>
       </div>
+
+      {isSignUp && (
+        <div className="border-3">
+          <Turnstile
+            siteKey={turnstileSiteKey}
+            options={{
+              theme: $darkMode ? "dark" : "light", // "light", "dark", "auto"
+              size: "flexible", // "flexible", "normal", "compact", "invisible"
+              appearance: "always", // "always", "execute", "interaction-only"
+            }}
+            onSuccess={(token) => setTurnstileToken(token)}
+            onExpire={() => setTurnstileToken("")}
+            onError={(err) => {
+              console.error("Turnstile error:", err);
+              setTurnstileToken("");
+            }}
+          />
+        </div>
+      )}
 
       <div className="flex w-full flex-col items-center gap-4 md:flex-row">
         <button
