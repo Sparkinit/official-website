@@ -15,6 +15,7 @@ const Brand = () => {
       <img
         src={sparkinitLight.src}
         alt="sparkinit"
+        draggable={false}
         className={`w-48 transition-all duration-300 ease-in-out sm:w-56 md:w-64 lg:w-72 ${
           $darkMode ? "opacity-0" : "opacity-100"
         }`}

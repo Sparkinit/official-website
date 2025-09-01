@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import background from "@/assets/background.png";
 
 interface CountdownProps {
   now: Date;
   activationDate: Date | undefined;
+  imageSrc?: string;
 }
 
-const Countdown = ({ now, activationDate }: CountdownProps) => {
+const Countdown = ({ now, activationDate, imageSrc }: CountdownProps) => {
   const [secondsLeft, setSecondsLeft] = useState(0);
 
   useEffect(() => {
@@ -32,7 +34,17 @@ const Countdown = ({ now, activationDate }: CountdownProps) => {
   const m = String(Math.floor((secondsLeft % 3600) / 60)).padStart(2, "0");
   const s = String(secondsLeft % 60).padStart(2, "0");
 
-  return <div className="font-mono text-2xl">{`${h}:${m}:${s}`}</div>;
+  return (
+    <div className="relative h-full w-full">
+      <img
+        src={imageSrc}
+        alt="Background"
+        className="h-full w-full object-cover"
+        draggable="false"
+      />
+      <div className="bg-background absolute bottom-6 left-0 font-mono text-xl">{`${h}:${m}:${s}`}</div>
+    </div>
+  );
 };
 
 export default Countdown;

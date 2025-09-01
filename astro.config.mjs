@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 
 import react from "@astrojs/react";
 
@@ -20,4 +20,15 @@ export default defineConfig({
   adapter: node({
     mode: "standalone",
   }),
+
+  experimental: {
+    fonts: [
+      {
+        name: "Funnel Display",
+        cssVariable: "--font-funnel-display",
+        provider: fontProviders.fontsource(),
+        weights: [300, 400],
+      },
+    ],
+  },
 });

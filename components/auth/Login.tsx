@@ -126,7 +126,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
                 type="text"
                 id="name"
                 placeholder="Name"
-                className="placeholder-foreground/60 min-h-12 w-full border-x-2 border-t-2 px-4 py-2 font-mono text-sm font-bold transition-all duration-300 ease-in-out outline-none sm:text-base md:border-x-3 md:border-t-3"
+                className="placeholder-foreground/60 min-h-12 w-full border-x-2 border-t-2 px-4 py-2 text-sm transition-all duration-300 ease-in-out outline-none sm:text-base md:border-x-3 md:border-t-3"
                 value={field.state.value}
                 onBlur={() => {
                   field.handleBlur;
@@ -149,7 +149,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
               type="email"
               id="email"
               placeholder="Email"
-              className="placeholder-foreground/60 min-h-12 w-full border-2 px-4 py-2 font-mono text-sm font-bold transition-all duration-300 ease-in-out outline-none sm:text-base md:border-3"
+              className="placeholder-foreground/60 min-h-12 w-full border-2 px-4 py-2 text-sm transition-all duration-300 ease-in-out outline-none sm:text-base md:border-3"
               value={field.state.value}
               onBlur={() => {
                 field.handleBlur;
@@ -172,7 +172,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
               id="password"
               placeholder="Password"
               minLength={8}
-              className="placeholder-foreground/60 min-h-12 w-full border-x-2 border-b-2 px-4 py-2 font-mono text-sm font-bold transition-all duration-300 ease-in-out outline-none sm:text-base md:border-x-3 md:border-b-3"
+              className="placeholder-foreground/60 min-h-12 w-full border-x-2 border-b-2 px-4 py-2 text-sm transition-all duration-300 ease-in-out outline-none sm:text-base md:border-x-3 md:border-b-3"
               value={field.state.value}
               onBlur={() => {
                 field.handleBlur;
@@ -212,7 +212,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
         <button
           type="submit"
           disabled={isLoading}
-          className="min-h-12 w-full flex-1 overflow-hidden border-2 px-4 py-2 font-mono text-sm font-bold text-ellipsis whitespace-nowrap transition-all duration-300 ease-in-out outline-none hover:cursor-pointer sm:text-base md:border-3"
+          className="min-h-12 w-full flex-1 overflow-hidden border-2 px-4 py-2 text-sm text-ellipsis whitespace-nowrap transition-all duration-300 ease-in-out outline-none hover:cursor-pointer sm:text-base md:border-3"
         >
           {getButtonLabel()}
         </button>
@@ -244,7 +244,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
           setError(null);
           setMessage(null);
         }}
-        className="flex-1 text-left font-mono text-sm font-bold transition-all duration-300 ease-in-out outline-none hover:cursor-pointer sm:text-base"
+        className="flex-1 text-left text-sm transition-all duration-300 ease-in-out outline-none hover:cursor-pointer sm:text-base"
       >
         {isSignUp
           ? "Already have an account? Log in"

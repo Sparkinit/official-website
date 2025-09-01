@@ -4,19 +4,20 @@
 
 @layer base {
   :root {
-    --background: #000000;
+    --background: #f83a00;
     --foreground: #ffffff;
   }
 
   .light {
     --background: #ffffff;
-    --foreground: #f73a01;
+    --foreground: #f83a00;
   }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --font-sans: var(--font-funnel-display);
 }
 
 @layer base {
