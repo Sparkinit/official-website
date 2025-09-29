@@ -6,11 +6,11 @@ import { user, session } from "@/stores";
 import Wordmark from "@/components/ui/Wordmark";
 import Countdown from "@/components/Countdown";
 import Form from "@/components/Form";
-import background from "@/assets/background.png";
+import background from "@/assets/background.svg";
 
 const image = await getImage({
   src: background,
-  format: "webp",
+  format: "svg",
 });
 
 user.set(Astro.locals.user);
@@ -42,7 +42,7 @@ const isFormSubmitted = $user?.formSubmitted === true;
         ) : // ) : !isAiApproved ? (
         //   <div>todo: chatbot</div>
         !isFormSubmitted ? (
-          <Form />
+          <Form imageSrc={image.src} client:load />
         ) : (
           <div>todo: success</div>
         ))
@@ -55,17 +55,19 @@ const isFormSubmitted = $user?.formSubmitted === true;
         class="flex flex-col px-3 pt-4 transition-all duration-300 ease-in-out sm:px-6 sm:pt-6 md:px-8 md:pt-8"
       >
         <Wordmark client:load />
-        <div class="flex flex-row gap-4 text-xl">燎原计划</div>
       </div>
     </div>
     <div class="absolute right-0 bottom-0 left-0">
       <div
         class="flex w-full flex-row items-center justify-between px-3 pb-4 transition-all duration-300 ease-in-out sm:px-6 sm:pb-6 md:px-8 md:pb-6"
       >
-        <div class="w-42">
-          <Brand client:load />
+        <div class="flex flex-row items-center gap-2">
+          <div class="w-42">
+            <Brand client:load />
+          </div>
+          <p class="text-xl">燎原计划</p>
         </div>
-        <span class="text-xl font-light uppercase"
+        <span class="hidden text-xl font-light uppercase md:block"
           >A single spark can start a prairie fire</span
         >
       </div>

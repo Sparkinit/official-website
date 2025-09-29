@@ -2,13 +2,13 @@
 import Layout from "@/layouts/Layout.astro";
 import Brand from "@/components/ui/Brand";
 import Login from "@/components/auth/Login";
-import PrismaticBurst from "@/components/effects/PrismaticBurst";
+import burning from "@/assets/burning.svg";
 
 const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY;
 ---
 
 <Layout>
-  <div class="fixed -z-10 h-screen w-full">
+  <!-- <div class="fixed -z-10 h-screen w-full">
     <PrismaticBurst
       animationType="rotate3d"
       speed={0.6}
@@ -19,6 +19,14 @@ const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY;
       mixBlendMode="lighten"
       colors={["#F83A00", "#ffffff"]}
       client:load
+    />
+  </div> -->
+
+  <div class="fixed bottom-6 -z-10 w-full opacity-15 sepia">
+    <img
+      src={burning.src}
+      alt="Burning"
+      class="h-auto max-h-[900px] w-full px-6"
     />
   </div>
 

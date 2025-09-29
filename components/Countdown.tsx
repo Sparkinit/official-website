@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import background from "@/assets/background.png";
+import { useStore } from "@nanostores/react";
+import { darkMode } from "@/stores";
 
 interface CountdownProps {
   now: Date;
@@ -9,6 +10,7 @@ interface CountdownProps {
 
 const Countdown = ({ now, activationDate, imageSrc }: CountdownProps) => {
   const [secondsLeft, setSecondsLeft] = useState(0);
+  const $darkMode = useStore(darkMode);
 
   useEffect(() => {
     if (!activationDate) {
@@ -35,7 +37,9 @@ const Countdown = ({ now, activationDate, imageSrc }: CountdownProps) => {
   const s = String(secondsLeft % 60).padStart(2, "0");
 
   return (
-    <div className="relative h-full w-full">
+    <div
+      className={`relative h-full w-full transition-all duration-300 ease-in-out ${$darkMode ? "bg-[#C62E01]" : "bg-[#FFD4C7]"}`}
+    >
       <img
         src={imageSrc}
         alt="Background"

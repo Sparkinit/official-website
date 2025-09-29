@@ -18,6 +18,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileKey, setTurnstileKey] = useState(Date.now());
 
   const $darkMode = useStore(darkMode);
 
@@ -62,21 +63,40 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
             },
           } as Parameters<typeof authClient.signUp.email>[0],
           {
-            onError: (ctx) => setError(ctx.error.message),
+            onError: (ctx) => {
+              setError(ctx.error.message);
+              setTurnstileToken("");
+              setTurnstileKey(Date.now());
+            },
           },
         );
         if (!error) {
           setMessage("Check your email");
         }
       } else {
+        if (!turnstileToken) {
+          setError("Please complete captcha");
+          setIsLoading(false);
+          return;
+        }
+
         const { error } = await authClient.signIn.email(
           {
             email: value.email,
             password: value.password,
             callbackURL: "/",
-          },
+            fetchOptions: {
+              headers: {
+                "x-captcha-response": turnstileToken,
+              },
+            },
+          } as Parameters<typeof authClient.signIn.email>[0],
           {
-            onError: (ctx) => setError(ctx.error.message),
+            onError: (ctx) => {
+              setError(ctx.error.message);
+              setTurnstileToken("");
+              setTurnstileKey(Date.now());
+            },
           },
         );
         if (!error) {
@@ -111,7 +131,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
 
   return (
     <form
-      className="flex w-full flex-col gap-4 px-4"
+      className={`flex w-full flex-col px-4 transition-all duration-300 ease-in-out ${turnstileToken ? "gap-1.5 md:gap-1" : "gap-4"}`}
       onSubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -189,67 +209,74 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
         </form.Field>
       </div>
 
-      {isSignUp && (
-        <div className="border-3">
-          <Turnstile
-            siteKey={turnstileSiteKey}
-            options={{
-              theme: $darkMode ? "dark" : "light", // "light", "dark", "auto"
-              size: "flexible", // "flexible", "normal", "compact", "invisible"
-              appearance: "always", // "always", "execute", "interaction-only"
-            }}
-            onSuccess={(token) => setTurnstileToken(token)}
-            onExpire={() => setTurnstileToken("")}
-            onError={(err) => {
-              console.error("Turnstile error:", err);
-              setTurnstileToken("");
-            }}
-          />
-        </div>
-      )}
-
-      <div className="flex w-full flex-col items-center gap-4 md:flex-row">
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="min-h-12 w-full flex-1 overflow-hidden border-2 px-4 py-2 text-sm text-ellipsis whitespace-nowrap transition-all duration-300 ease-in-out outline-none hover:cursor-pointer sm:text-base md:border-3"
-        >
-          {getButtonLabel()}
-        </button>
-        <div className="flex w-full flex-row items-center gap-4 md:w-auto">
-          <button
-            type="button"
-            disabled={isLoading}
-            aria-label="Sign in with GitHub"
-            onClick={() => handleSocialLogin("github")}
-            className="light:bg-foreground flex h-12 w-full items-center justify-center border-2 bg-transparent outline-none hover:cursor-pointer md:w-12 md:border-3"
-          >
-            <Github className="size-5" />
-          </button>
-          <button
-            type="button"
-            disabled={isLoading}
-            aria-label="Sign in with Google"
-            onClick={() => handleSocialLogin("google")}
-            className="light:bg-foreground flex h-12 w-full items-center justify-center border-2 bg-transparent outline-none hover:cursor-pointer md:w-12 md:border-3"
-          >
-            <Google className="size-5" />
-          </button>
-        </div>
-      </div>
-      <button
-        type="button"
-        onClick={() => {
-          setIsSignUp(!isSignUp);
-          setError(null);
-          setMessage(null);
-        }}
-        className="flex-1 text-left text-sm transition-all duration-300 ease-in-out outline-none hover:cursor-pointer sm:text-base"
+      <div
+        className={`border-2 transition-all duration-300 ease-in-out md:border-3 ${
+          turnstileToken
+            ? "pointer-events-none h-0 overflow-hidden opacity-0"
+            : "pointer-events-auto h-[69px] opacity-100 md:h-[71px]"
+        }`}
       >
-        {isSignUp
-          ? "Already have an account? Log in"
-          : "Don't have an account? Sign up"}
-      </button>
+        <Turnstile
+          key={turnstileKey}
+          siteKey={turnstileSiteKey}
+          options={{
+            theme: $darkMode ? "dark" : "light", // "light", "dark", "auto"
+            size: "flexible", // "flexible", "normal", "compact", "invisible"
+            appearance: "always", // "always", "execute", "interaction-only"
+          }}
+          onSuccess={(token) => setTurnstileToken(token)}
+          onExpire={() => setTurnstileToken("")}
+          onError={(err) => {
+            console.error("Turnstile error:", err);
+            setTurnstileToken("");
+          }}
+        />
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <div className="flex w-full flex-col items-center gap-4 md:flex-row">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="min-h-12 w-full flex-1 overflow-hidden border-2 px-4 py-2 text-sm text-ellipsis whitespace-nowrap transition-all duration-300 ease-in-out outline-none hover:cursor-pointer sm:text-base md:border-3"
+          >
+            {getButtonLabel()}
+          </button>
+          <div className="flex w-full flex-row items-center gap-4 md:w-auto">
+            <button
+              type="button"
+              disabled={isLoading}
+              aria-label="Sign in with GitHub"
+              onClick={() => handleSocialLogin("github")}
+              className="light:bg-foreground flex h-12 w-full items-center justify-center border-2 bg-transparent outline-none hover:cursor-pointer md:w-12 md:border-3"
+            >
+              <Github className="size-5" />
+            </button>
+            <button
+              type="button"
+              disabled={isLoading}
+              aria-label="Sign in with Google"
+              onClick={() => handleSocialLogin("google")}
+              className="light:bg-foreground flex h-12 w-full items-center justify-center border-2 bg-transparent outline-none hover:cursor-pointer md:w-12 md:border-3"
+            >
+              <Google className="size-5" />
+            </button>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            setIsSignUp(!isSignUp);
+            setError(null);
+            setMessage(null);
+          }}
+          className="flex-1 text-left text-sm transition-all duration-300 ease-in-out outline-none hover:cursor-pointer sm:text-base"
+        >
+          {isSignUp
+            ? "Already have an account? Log in"
+            : "Don't have an account? Sign up"}
+        </button>
+      </div>
     </form>
   );
 };
