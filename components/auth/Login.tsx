@@ -45,7 +45,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
 
       if (isSignUp) {
         if (!turnstileToken) {
-          setError("Please complete captcha");
+          setError("请完成安全验证");
           setIsLoading(false);
           return;
         }
@@ -71,11 +71,11 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
           },
         );
         if (!error) {
-          setMessage("Check your email");
+          setMessage("请检查您的邮箱");
         }
       } else {
         if (!turnstileToken) {
-          setError("Please complete captcha");
+          setError("请完成安全验证");
           setIsLoading(false);
           return;
         }
@@ -100,7 +100,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
           },
         );
         if (!error) {
-          setMessage("Signed in successfully");
+          setMessage("登录成功");
         }
       }
 
@@ -123,10 +123,10 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
   };
 
   const getButtonLabel = () => {
-    if (isLoading) return isSignUp ? "Signing up..." : "Signing in...";
+    if (isLoading) return isSignUp ? "注册中..." : "登录中...";
     if (error) return error;
     if (message) return message;
-    return isSignUp ? "Sign up" : "Sign in";
+    return isSignUp ? "注册" : "登录";
   };
 
   return (
@@ -145,7 +145,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
               <input
                 type="text"
                 id="name"
-                placeholder="Name"
+                placeholder="姓名"
                 className="placeholder-foreground/60 min-h-12 w-full border-x-2 border-t-2 px-4 py-2 text-sm transition-all duration-300 ease-in-out outline-none sm:text-base md:border-x-3 md:border-t-3"
                 value={field.state.value}
                 onBlur={() => {
@@ -168,7 +168,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
             <input
               type="email"
               id="email"
-              placeholder="Email"
+              placeholder="邮箱"
               className="placeholder-foreground/60 min-h-12 w-full border-2 px-4 py-2 text-sm transition-all duration-300 ease-in-out outline-none sm:text-base md:border-3"
               value={field.state.value}
               onBlur={() => {
@@ -190,7 +190,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
             <input
               type="password"
               id="password"
-              placeholder="Password"
+              placeholder="密码"
               minLength={8}
               className="placeholder-foreground/60 min-h-12 w-full border-x-2 border-b-2 px-4 py-2 text-sm transition-all duration-300 ease-in-out outline-none sm:text-base md:border-x-3 md:border-b-3"
               value={field.state.value}
@@ -246,7 +246,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
             <button
               type="button"
               disabled={isLoading}
-              aria-label="Sign in with GitHub"
+              aria-label="使用 GitHub 登录"
               onClick={() => handleSocialLogin("github")}
               className="light:bg-foreground flex h-12 w-full items-center justify-center border-2 bg-transparent outline-none hover:cursor-pointer md:w-12 md:border-3"
             >
@@ -255,7 +255,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
             <button
               type="button"
               disabled={isLoading}
-              aria-label="Sign in with Google"
+              aria-label="使用 Google 登录"
               onClick={() => handleSocialLogin("google")}
               className="light:bg-foreground flex h-12 w-full items-center justify-center border-2 bg-transparent outline-none hover:cursor-pointer md:w-12 md:border-3"
             >
@@ -272,9 +272,7 @@ const Login = ({ turnstileSiteKey }: LoginProps) => {
           }}
           className="flex-1 text-left text-sm transition-all duration-300 ease-in-out outline-none hover:cursor-pointer sm:text-base"
         >
-          {isSignUp
-            ? "Already have an account? Log in"
-            : "Don't have an account? Sign up"}
+          {isSignUp ? "已有账户？立即登录" : "还没有账户？立即注册"}
         </button>
       </div>
     </form>
